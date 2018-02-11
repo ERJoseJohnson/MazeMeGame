@@ -76,7 +76,7 @@ public class ObstacleManager {
                 increementY(r,speed*elapsedTime);       //Change 2
             }
         }
-
+        // THis is a worst version
         if ((obstacles.get(obstacles.size()-1).get(0).top) >= Constants.SCREEN_HEIGHT) {
             ellrow.update(obstacles.get(0).get(0).top - obstacleGap - RectGap,obstacleGap);    // The problem is here!!!
             obstacles.remove(obstacles.size() - 1);
