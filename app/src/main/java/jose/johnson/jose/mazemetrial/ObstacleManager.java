@@ -22,6 +22,7 @@ public class ObstacleManager {
     private int RectGap = (Constants.SCREEN_WIDTH/16);
 
     private long startTime;
+    private long scoreTime = System.currentTimeMillis();
     private long initTime; //Makes the game go faster with time
     private int score = 0;
 
@@ -41,13 +42,6 @@ public class ObstacleManager {
         obstacles = new ArrayList<ArrayList<Rect>>();
         populateObstacles();
 
-    }
-    public boolean playerCollide(Player player){
-        for(ArrayList<Rect> list : obstacles){
-            for(Rect r : list){
-                return r.intersect(player.getRectangle());
-            }
-        }return false;
     }
 
     private void populateObstacles(){
@@ -82,10 +76,16 @@ public class ObstacleManager {
             obstacles.remove(obstacles.size() - 1);
             AddRect = new ArrayList<>(ellrow.returnRects());
             obstacles.add(0,AddRect);   // Change1
-            //System.out.println(AddRect);
-            //System.out.println(obstacles.get(0));
-            //score++;
         }
+        score = scoreInc(score);
+    }
+
+    private int scoreInc(int score){
+        if (System.currentTimeMillis()-scoreTime>1000){
+            scoreTime = System.currentTimeMillis();
+            score++;
+        }
+        return score;
     }
 
     public void draw(Canvas canvas){
@@ -94,20 +94,21 @@ public class ObstacleManager {
           for(ArrayList<Rect> list : obstacles){
             for(Rect r : list){
                 canvas.drawRect(r,pa);
-
-                //System.out.print(r);
-                //System.out.println("Draw?");
-                //Paint p = new Paint();
-                //p.setTextSize(100);
-                //p.setColor(Color.BLUE);
-                //canvas.drawText(""+score,50, 100, p);
             }
         }
+        Paint p = new Paint();
+        p.setTextSize(100);
+        p.setColor(Color.BLUE);
+        canvas.drawText(""+score,50, 100, p);
     }
 
     public void increementY(Rect r, float Y){
         r.top += Y;
         r.bottom += Y;
+    }
+
+    public boolean playerCollide(Player player){
+       
     }
 
 }
